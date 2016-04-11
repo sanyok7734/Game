@@ -7,25 +7,21 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.Handler;
-import android.os.Message;
+import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.odintsov.game.R;
 import com.odintsov.game.listener.GameListener;
 import com.odintsov.game.model.Bucket;
 import com.odintsov.game.model.Drop;
-import com.odintsov.game.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-
-import rx.Observable;
-import rx.Subscriber;
 
 public class GameView extends SurfaceView implements Runnable {
 
@@ -193,6 +189,7 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void testCollision() {
         Iterator<Drop> b = ball.iterator();
+        MediaPlayer player = MediaPlayer.create(getContext(), R.raw.drop_sound);
         while (b.hasNext()) {
             Drop balls = b.next();
             int xBall = balls.getX() + (balls.getWidth() / 2);
@@ -201,12 +198,13 @@ public class GameView extends SurfaceView implements Runnable {
 
             if (xBucket <= xBall && xBall <= wBucket && (Math.abs(balls.getY() - bucket1.getY()) <= (balls.getHeight() + (bucket1.getHeight() / 1.5)) / 2f)) {
                 gameListener.hit();
+                player.seekTo(1000);
+                player.start();
                 b.remove();
+                player.reset();
+                player.release();
             } else if (balls.getY() > screenHeight) {
-<<<<<<< HEAD
                 Log.d("GAME_OLOL", "---------------------");
-=======
->>>>>>> 85d6cad1cb4d58bfed13952384ad7b97695a73b6
                 gameListener.missed();
 
                 b.remove();
