@@ -5,18 +5,16 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import com.odintsov.game.R;
 import com.odintsov.game.listener.GameListener;
 import com.odintsov.game.model.Bucket;
 import com.odintsov.game.model.Drop;
-import com.odintsov.game.R;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -34,20 +32,20 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     private List<Drop> ball = new ArrayList<Drop>();
-    private Thread thred = new Thread(this);
+    private Thread thread = new Thread(this);
 
 
     private Bucket bucket;
-    private Bucket bucket1;
+    private Bucket bucketBeside;
     Bitmap buckets;
-    Bitmap buckets1;
+    Bitmap bucketsBeside;
     private GameThread mThread;
+
 
     public int shotX;
     public int shotY;
 
     private boolean running = false;
-
 
     public class GameThread extends Thread {
         private GameView view;
@@ -70,6 +68,7 @@ public class GameView extends SurfaceView implements Runnable {
                         testCollision();
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     if (canvas != null) {
                         view.getHolder().unlockCanvasAndPost(canvas);
@@ -78,7 +77,6 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-
 
     public GameView(Context context, int screenWidth, int screenHeight, GameListener gameListener) {
         super(context);
@@ -90,11 +88,12 @@ public class GameView extends SurfaceView implements Runnable {
         mThread = new GameThread(this);
 
         buckets = BitmapFactory.decodeResource(getResources(), R.drawable.bucket);
-        buckets1 = BitmapFactory.decodeResource(getResources(), R.drawable.bucket1);
-        bucket = new Bucket(screenWidth, screenHeight, buckets);
-        bucket1 = new Bucket(screenWidth, screenHeight, buckets1);
+        bucketsBeside = BitmapFactory.decodeResource(getResources(), R.drawable.bucket1);
 
-        thred.start();
+        bucket = new Bucket(screenWidth, screenHeight, buckets);
+        bucketBeside = new Bucket(screenWidth, screenHeight, bucketsBeside);
+
+        thread.start();
 
         getHolder().addCallback(new SurfaceHolder.Callback() {
             public void surfaceDestroyed(SurfaceHolder holder) {
@@ -131,7 +130,7 @@ public class GameView extends SurfaceView implements Runnable {
             b.onDraw(canvas);
         }
 
-        bucket1.onDraw(canvas);
+        bucketBeside.onDraw(canvas);
     }
 
     private void onDrawBackground(Canvas canvas) {
@@ -165,10 +164,10 @@ public class GameView extends SurfaceView implements Runnable {
         width = width / 2;
         if (shotX > width) {
             bucket.setX(screenWidth / 20);
-            bucket1.setX(screenWidth / 20);
+            bucketBeside.setX(screenWidth / 20);
         } else {
             bucket.setX((screenWidth / 20) * -1);
-            bucket1.setX((screenWidth / 20) * -1);
+            bucketBeside.setX((screenWidth / 20) * -1);
         }
 
         return true;
@@ -193,12 +192,13 @@ public class GameView extends SurfaceView implements Runnable {
         while (b.hasNext()) {
             Drop balls = b.next();
             int xBall = balls.getX() + (balls.getWidth() / 2);
-            int xBucket = bucket1.getX();
-            int wBucket = bucket1.getX() + bucket1.getWidth();
+            int xBucket = bucketBeside.getX();
+            int wBucket = bucketBeside.getX() + bucketBeside.getWidth();
 
-            if (xBucket <= xBall && xBall <= wBucket && (Math.abs(balls.getY() - bucket1.getY()) <= (balls.getHeight() + (bucket1.getHeight() / 1.5)) / 2f)) {
+            if (xBucket <= xBall && xBall <= wBucket && (Math.abs(balls.getY() - bucketBeside.getY()) <= (balls.getHeight() + (bucketBeside.getHeight() / 1.5)) / 2f)) {
                 gameListener.hit();
                 b.remove();
+
             } else if (balls.getY() > screenHeight) {
                 gameListener.missed();
                 b.remove();

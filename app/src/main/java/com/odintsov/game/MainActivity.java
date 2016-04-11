@@ -1,24 +1,17 @@
 package com.odintsov.game;
 
 import android.app.Activity;
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.odintsov.game.listener.GameListener;
 import com.odintsov.game.view.GameView;
@@ -46,8 +39,8 @@ public class MainActivity extends Activity implements GameListener {
         setContentView(R.layout.activity_game);
         scene = (FrameLayout) findViewById(R.id.scene);
         missedText = (TextView) findViewById(R.id.missedText);
-        dropText = (TextView) findViewById(R.id.dropText);
-        missedText.setText("10");
+        missedText.setText("0");
+        dropText = ((TextView) findViewById(R.id.dropText));
         dropText.setText("0");
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
@@ -64,7 +57,7 @@ public class MainActivity extends Activity implements GameListener {
 
     @Override
     public void missed() {
-        missedCount =  missedCount - 1;
+        missedCount = missedCount - 1;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -87,4 +80,5 @@ public class MainActivity extends Activity implements GameListener {
             }
         });
     }
+
 }
