@@ -2,6 +2,7 @@ package com.odintsov.game;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -68,6 +69,10 @@ public class MainActivity extends Activity implements GameListener {
             @Override
             public void run() {
                 missedText.setText("" + missedCount);
+                if (missedCount == 0) {
+                    Intent intent = new Intent(getApplicationContext(), FinishActivity.class);
+                    startActivity(intent);
+                }
             }
         });
     }
