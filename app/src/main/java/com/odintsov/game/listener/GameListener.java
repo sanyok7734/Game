@@ -4,4 +4,6 @@ public interface GameListener {
 
     void missed();
 
+    void hit();
+
 }

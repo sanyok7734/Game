@@ -9,12 +9,16 @@
         android:layout_height="match_parent"
         android:background="@android:color/transparent" />
 
-    <!--    <FrameLayout
-            android:background="#333"
-            android:layout_width="match_parent"
-            android:layout_height="20dp"/>
+        <Chronometer
+            android:id="@+id/chronometer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_gravity="right|top"
+            android:textSize="20sp"
+            android:textColor="#fff"/>
 
-        -->
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -28,6 +32,28 @@
 
         <TextView
             android:id="@+id/missedText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="34dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="20sp"
+            android:textColor="#fff"
+            />
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="50dp">
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/drop_text" />
+
+        <TextView
+            android:id="@+id/dropText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="34dp"

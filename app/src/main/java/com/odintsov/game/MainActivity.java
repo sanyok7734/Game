@@ -6,6 +6,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.app.AppCompatActivity;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.Chronometer;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,8 +26,12 @@ public class MainActivity extends Activity implements GameListener {
 
     private FrameLayout scene;
     private TextView missedText;
+    private TextView dropText;
+
+    private Chronometer chronometer;
 
     private int missedCount = 10;
+    private int hitCount = 0;
 
 
     @Override
@@ -39,7 +45,9 @@ public class MainActivity extends Activity implements GameListener {
         setContentView(R.layout.activity_game);
         scene = (FrameLayout) findViewById(R.id.scene);
         missedText = (TextView) findViewById(R.id.missedText);
+        dropText = (TextView) findViewById(R.id.dropText);
         missedText.setText("10");
+        dropText.setText("0");
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -47,18 +55,31 @@ public class MainActivity extends Activity implements GameListener {
         int screenHeight = displaymetrics.heightPixels;
 
         scene.addView(new GameView(this, screenWidth, screenHeight, this));
+
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+        chronometer.start();
     }
 
 
     @Override
     public void missed() {
+        missedCount =  missedCount - 1;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                missedText.setText("" + missedCount);
+            }
+        });
+    }
 
-     //   Toast.makeText(MainActivity.this, "100", Toast.LENGTH_SHORT).show();
-      //  missedCount =  missedCount - 1;
-
-        missedText.setText("9");
-        Log.d("GAME_OLOL", "!!!!!!!!!!!!!!!!!!!!!!!!");
-      //  missedText = (TextView) findViewById(R.id.missedText);
-      //  missedText.setTextColor(Color.parseColor("#000000"));
+    @Override
+    public void hit() {
+        hitCount = hitCount + 1;
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                dropText.setText("" + hitCount);
+            }
+        });
     }
 }
