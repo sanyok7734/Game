@@ -126,7 +126,6 @@ public class GameView extends SurfaceView implements Runnable {
     protected void onDraws(Canvas canvas) {
         canvas.drawColor(Color.parseColor("#7bc5cd"));
         onDrawBackground(canvas);
-       // onDrawHeart(canvas);
         bucket.onDraw(canvas);
 
         Iterator<Drop> j = ball.iterator();
@@ -164,16 +163,9 @@ public class GameView extends SurfaceView implements Runnable {
     public boolean onTouchEvent(MotionEvent e) {
         shotX = (int) e.getX();
         shotY = (int) e.getY();
-     /*   Log.d("GAME_OLOL", "Y= " + shotY);
-
-        if(e.getAction() == MotionEvent.ACTION_DOWN)
-            ball.add(createSprite(R.drawable.drop));*/
 
         int width = this.getWidth();
         width = width / 2;
-        //  Log.d("GAME_OLOL", "bucket1.x " + bucket1.x);
-
-
         if (shotX > width) {
             bucket.setX(screenWidth / 20);
             bucket1.setX(screenWidth / 20);
@@ -181,7 +173,6 @@ public class GameView extends SurfaceView implements Runnable {
             bucket.setX((screenWidth / 20) * -1);
             bucket1.setX((screenWidth / 20) * -1);
         }
-
 
         return true;
     }
@@ -192,7 +183,7 @@ public class GameView extends SurfaceView implements Runnable {
         while (true) {
             Random rnd = new Random();
             try {
-                Thread.sleep(rnd.nextInt(2000) + 500);
+                Thread.sleep(rnd.nextInt(2000) + 300);
                 ball.add(createSprite(R.drawable.drop));
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -209,10 +200,13 @@ public class GameView extends SurfaceView implements Runnable {
             int wBucket = bucket1.getX() + bucket1.getWidth();
 
             if (xBucket <= xBall && xBall <= wBucket && (Math.abs(balls.getY() - bucket1.getY()) <= (balls.getHeight() + (bucket1.getHeight() / 1.5)) / 2f)) {
-                Log.d("GAME_OLOL", "YEAP");
+                gameListener.hit();
                 b.remove();
             } else if (balls.getY() > screenHeight) {
+<<<<<<< HEAD
                 Log.d("GAME_OLOL", "---------------------");
+=======
+>>>>>>> 85d6cad1cb4d58bfed13952384ad7b97695a73b6
                 gameListener.missed();
 
                 b.remove();
