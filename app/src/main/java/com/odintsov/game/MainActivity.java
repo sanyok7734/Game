@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -39,7 +41,7 @@ public class MainActivity extends Activity implements GameListener {
         setContentView(R.layout.activity_game);
         scene = (FrameLayout) findViewById(R.id.scene);
         missedText = (TextView) findViewById(R.id.missedText);
-        missedText.setText("10");
+        missedText.setText("0");
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -56,9 +58,15 @@ public class MainActivity extends Activity implements GameListener {
      //   Toast.makeText(MainActivity.this, "100", Toast.LENGTH_SHORT).show();
       //  missedCount =  missedCount - 1;
 
-        missedText.setText("9");
-        Log.d("GAME_OLOL", "!!!!!!!!!!!!!!!!!!!!!!!!");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                missedText.setText("9");
+            }
+        });
+
       //  missedText = (TextView) findViewById(R.id.missedText);
       //  missedText.setTextColor(Color.parseColor("#000000"));
     }
+
 }

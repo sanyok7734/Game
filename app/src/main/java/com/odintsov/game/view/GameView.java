@@ -5,9 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
@@ -23,6 +24,9 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import rx.Observable;
+import rx.Subscriber;
+
 public class GameView extends SurfaceView implements Runnable {
 
 
@@ -34,7 +38,7 @@ public class GameView extends SurfaceView implements Runnable {
 
 
     private List<Drop> ball = new ArrayList<Drop>();
-    private Thread thred = new Thread(this);
+    private Thread thread = new Thread(this);
 
 
     private Bucket bucket;
@@ -47,7 +51,6 @@ public class GameView extends SurfaceView implements Runnable {
     public int shotY;
 
     private boolean running = false;
-
 
     public class GameThread extends Thread {
         private GameView view;
@@ -70,6 +73,7 @@ public class GameView extends SurfaceView implements Runnable {
                         testCollision();
                     }
                 } catch (Exception e) {
+                    e.printStackTrace();
                 } finally {
                     if (canvas != null) {
                         view.getHolder().unlockCanvasAndPost(canvas);
@@ -78,7 +82,6 @@ public class GameView extends SurfaceView implements Runnable {
             }
         }
     }
-
 
     public GameView(Context context, int screenWidth, int screenHeight, GameListener gameListener) {
         super(context);
@@ -94,7 +97,7 @@ public class GameView extends SurfaceView implements Runnable {
         bucket = new Bucket(screenWidth, screenHeight, buckets);
         bucket1 = new Bucket(screenWidth, screenHeight, buckets1);
 
-        thred.start();
+        thread.start();
 
         getHolder().addCallback(new SurfaceHolder.Callback() {
             public void surfaceDestroyed(SurfaceHolder holder) {
@@ -210,8 +213,8 @@ public class GameView extends SurfaceView implements Runnable {
                 b.remove();
             } else if (balls.getY() > screenHeight) {
                 Log.d("GAME_OLOL", "---------------------");
-
                 gameListener.missed();
+
                 b.remove();
             }
         }
