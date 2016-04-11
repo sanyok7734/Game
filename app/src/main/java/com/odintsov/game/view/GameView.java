@@ -189,7 +189,7 @@ public class GameView extends SurfaceView implements Runnable {
         while (true) {
             Random rnd = new Random();
             try {
-                Thread.sleep(rnd.nextInt(2000) + 800);
+                Thread.sleep(rnd.nextInt(2000) + 500);
                 ball.add(createSprite(R.drawable.drop));
             } catch (InterruptedException e) {
                 e.printStackTrace();
