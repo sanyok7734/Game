@@ -18,27 +18,38 @@
             android:layout_gravity="center">
 
             <TextView
+                android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#fff"
-                android:textSize="25sp"
+                android:textSize="35sp"
                 android:text="Time: "/>
 
             <TextView
+                android:id="@+id/timeText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textColor="#fff"
-                android:textSize="25sp"
+                android:textSize="35sp"
                 android:text="1:20 "/>
 
         </LinearLayout>
 
         <TextView
+            android:id="@+id/score"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="#fff"
-            android:textSize="75sp"
+            android:textSize="95sp"
             android:text="20"/>
+
+        <TextView
+            android:id="@+id/scoreText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#fff"
+            android:textSize="35sp"
+            android:text="score"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -48,7 +59,7 @@
             android:layout_gravity="center" >
 
             <ImageView
-                android:id="@+id/about"
+                android:id="@+id/reset"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/restart_btn"

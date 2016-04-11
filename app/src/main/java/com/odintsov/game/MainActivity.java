@@ -39,7 +39,7 @@ public class MainActivity extends Activity implements GameListener {
         setContentView(R.layout.activity_game);
         scene = (FrameLayout) findViewById(R.id.scene);
         missedText = (TextView) findViewById(R.id.missedText);
-        missedText.setText("0");
+        missedText.setText("10");
         dropText = ((TextView) findViewById(R.id.dropText));
         dropText.setText("0");
 
@@ -63,7 +63,10 @@ public class MainActivity extends Activity implements GameListener {
             public void run() {
                 missedText.setText("" + missedCount);
                 if (missedCount == 0) {
+                    finish();
                     Intent intent = new Intent(getApplicationContext(), FinishActivity.class);
+                    intent.putExtra("time", chronometer.getText());
+                    intent.putExtra("score", hitCount);
                     startActivity(intent);
                 }
             }

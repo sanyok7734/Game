@@ -22,7 +22,7 @@ public class Drop {
     private  int height;
 
 
-    public Drop(int screenWidth, int screenHeight, Bitmap bmp, int x) {
+    public Drop(int mSpeed, Bitmap bmp, int x) {
         this.bmp=bmp;
 
         this.x = x;
@@ -30,7 +30,7 @@ public class Drop {
         this.width = bmp.getWidth();
         this.height = bmp.getHeight();
 
-        mSpeed = screenHeight / 100;
+        this.mSpeed = mSpeed;
 
         angle = 1.56;
     }

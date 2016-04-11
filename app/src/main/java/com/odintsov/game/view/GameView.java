@@ -7,6 +7,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -27,6 +29,12 @@ public class GameView extends SurfaceView implements Runnable {
     private int screenWidth;
     private int screenHeight;
     private GameListener gameListener;
+
+    private int countDrops;
+    private int defaultSpeed;
+
+    private SoundPool sounds;
+    private int melody;
 
     private boolean createBackground = false;
 
@@ -84,6 +92,12 @@ public class GameView extends SurfaceView implements Runnable {
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
         this.gameListener = gameListener;
+
+        defaultSpeed = screenHeight / 100;
+        countDrops = 0;
+
+        sounds = new SoundPool(10, AudioManager.STREAM_MUSIC,0);
+        melody = sounds.load(context, R.raw.waterdrop, 1);
 
         mThread = new GameThread(this);
 
@@ -152,7 +166,8 @@ public class GameView extends SurfaceView implements Runnable {
     public Drop createSprite(int resouce) {
         Random rnd = new Random();
         Bitmap bmp = BitmapFactory.decodeResource(getResources(), resouce);
-        return new Drop(screenWidth, screenHeight, bmp, rnd.nextInt(screenWidth - bmp.getWidth()));
+        defaultSpeed = defaultSpeed + 1;
+        return new Drop(defaultSpeed, bmp, rnd.nextInt(screenWidth - bmp.getWidth()));
     }
 
     @Override
@@ -197,6 +212,7 @@ public class GameView extends SurfaceView implements Runnable {
 
             if (xBucket <= xBall && xBall <= wBucket && (Math.abs(balls.getY() - bucketBeside.getY()) <= (balls.getHeight() + (bucketBeside.getHeight() / 1.5)) / 2f)) {
                 gameListener.hit();
+                sounds.play(melody, 1.0f, 1.0f, 0, 0, 1.5f);
                 b.remove();
 
             } else if (balls.getY() > screenHeight) {
