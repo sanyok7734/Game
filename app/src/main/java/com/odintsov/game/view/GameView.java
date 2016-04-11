@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.media.AudioAttributes;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -189,7 +190,6 @@ public class GameView extends SurfaceView implements Runnable {
 
     private void testCollision() {
         Iterator<Drop> b = ball.iterator();
-        MediaPlayer player = MediaPlayer.create(getContext(), R.raw.drop_sound);
         while (b.hasNext()) {
             Drop balls = b.next();
             int xBall = balls.getX() + (balls.getWidth() / 2);
@@ -198,11 +198,9 @@ public class GameView extends SurfaceView implements Runnable {
 
             if (xBucket <= xBall && xBall <= wBucket && (Math.abs(balls.getY() - bucket1.getY()) <= (balls.getHeight() + (bucket1.getHeight() / 1.5)) / 2f)) {
                 gameListener.hit();
-                player.seekTo(1000);
-                player.start();
+
                 b.remove();
-                player.reset();
-                player.release();
+
             } else if (balls.getY() > screenHeight) {
                 Log.d("GAME_OLOL", "---------------------");
                 gameListener.missed();

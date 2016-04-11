@@ -38,6 +38,8 @@ public class MainActivity extends Activity implements GameListener {
         scene = (FrameLayout) findViewById(R.id.scene);
         missedText = (TextView) findViewById(R.id.missedText);
         missedText.setText("0");
+        dropText = ((TextView) findViewById(R.id.dropText));
+        dropText.setText("0");
 
         DisplayMetrics displaymetrics = new DisplayMetrics();
         this.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -53,7 +55,7 @@ public class MainActivity extends Activity implements GameListener {
 
     @Override
     public void missed() {
-        missedCount =  missedCount - 1;
+        missedCount = missedCount - 1;
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
