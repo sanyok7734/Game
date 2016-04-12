@@ -13,9 +13,6 @@ public class Drop {
     private int y;
 
     private int mSpeed=20;
-    private int screenWidth;
-    private int screenHeight;
-
     public double angle;
 
     private int width;
